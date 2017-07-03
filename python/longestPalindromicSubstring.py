@@ -1,14 +1,9 @@
-Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+## 求出字符串中的最长子回文
 
-Example:
+###Example:
+输入: "babad"
+输出: "bab"
 
-Input: "babad"
+注意: "aba"同样为正确答案。
 
-Output: "bab"
-
-Note: "aba" is also a valid answer.
-Example:
-
-Input: "cbbd"
-
-Output: "bb"
+ 
