@@ -1,10 +1,10 @@
 ## 求出字符串中的最长子回文
-
+---
 ### Example:
 输入: "babad"
 输出: "bab"
 
-### 注意: "aba"同样为正确答案。
+** 注意: "aba"同样为正确答案。**
 
 ### python实现如下：
     class Solution(object):
@@ -40,17 +40,17 @@
                 j = j + 1
             return maxPal, startIndex
 
-          def getEvenMaxPal(selfself, s, pivot):
-                i = pivot
-                j = pivot + 1
-                maxPal = 0
-                startIndex = pivot
-                while i >= 0 and j < len(s) and s[i] == s[j]:
-                    maxPal = maxPal + 2
-                    startIndex = i
-                    i = i - 1
-                    j = j + 1
-                return maxPal, startIndex
+        def getEvenMaxPal(selfself, s, pivot):
+            i = pivot
+            j = pivot + 1
+            maxPal = 0
+            startIndex = pivot
+            while i >= 0 and j < len(s) and s[i] == s[j]:
+                maxPal = maxPal + 2
+                startIndex = i
+                i = i - 1
+                j = j + 1
+            return maxPal, startIndex
 
 
     if __name__ == '__main__':
