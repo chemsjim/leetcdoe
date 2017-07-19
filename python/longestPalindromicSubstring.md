@@ -2,9 +2,10 @@
 ---
 ### Example:
 输入: "babad"
+
 输出: "bab"
 
-** 注意: "aba"同样为正确答案。**
+**注意: "aba"同样为正确答案。**
 
 ### python实现如下：
     class Solution(object):
@@ -58,4 +59,16 @@
         caseStr = 'aaaaa'
 
         print solution.longestPalindrome(caseStr)
+
+
+---
+### 简单思路
+对字符串进行遍历，当前字符作为子回文串的pivot，则有两种情况：
+
+1、奇数长度回文
+
+2、偶数长度回文
+
+穷举出所有的子回文串，选出其中最长的子回文
+
 
