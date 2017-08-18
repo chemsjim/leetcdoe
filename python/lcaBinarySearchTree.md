@@ -19,7 +19,7 @@ For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another exa
 结点2和结点6的最低公共祖先点是6。而结点2和结点4的最低公共祖先结点是4，因为一个结点允许作为自己的子孙结点。
 
 ### python 实现如下：
-	# Definition for a binary tree node.
+	#Definition for a binary tree node.
 	class TreeNode(object):
 	     def __init__(self, x):
 	         self.val = x
