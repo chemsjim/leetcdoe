@@ -1,53 +1,83 @@
 ## 判断单向链表是否为回文
 ---
-给出一个整数数组S，取出数组中的3个元素a,b,c，使得 a+b+c=0，找出所有的满足这个条件的3-tuple
+判断单向链表是否为回文
 
-**NOTE:结果中不应改包含重复tuple**
+**NOTE : 算法性能要求：空间复杂度O(1)，时间复杂度O(N)**
 
-### Example:
-输入: S = [-1, 0, 1, 2, -1, -4]
-
-输出:
- 
-[
-  [-1, 0, 1],
-  [-1, -1, 2]
-]
-
-
+### python实现
+#### Solution1
+	# Definition for singly-linked list.
+	class ListNode(object):
+	    def __init__(self, x):
+	        self.val = x
+	        self.next = None
 	class Solution(object):
-	    def threeSum(self, nums):
-	        res = []
-	        nums.sort()
-	        for i in xrange(len(nums) - 2):
-	            if i > 0 and nums[i] == nums[i - 1]:
-	                continue
-	            l, r = i + 1, len(nums) - 1
-	            while l < r:
-	                s = nums[i] + nums[l] + nums[r]
-	                if s < 0:
-	                    l += 1
-	                elif s > 0:
-	                    r -= 1
-	                else:
-	                    res.append((nums[i], nums[l], nums[r]))
-	                    while l < r and nums[l] == nums[l + 1]:
-	                        l += 1
-	                    while l < r and nums[r] == nums[r - 1]:
-	                        r -= 1
-	                    l += 1;
-	                    r -= 1
-	        return res
+	    def isPalindrome(self, head):
+	        """
+	        :type head: ListNode
+	        :rtype: bool
+	        """
+	        list = []
+	        while head:
+	            list.append(head.val)
+	            head = head.next
+	        return True if list[-1::-1] == list[0:] else False
 
-	if __name__ == '__main__':
-    	solution = Solution()
-  	  	S = [-1, 0, 1, 2, -1, -4]
-    	print solution.threeSum(S);
+#### Solution2
+	# Definition for singly-linked list.
+	class ListNode(object):
+	    def __init__(self, x):
+	        self.val = x
+	        self.next = None
+	class Solution3(object):
+	    def isPalindrome(self, head):
+	        """
+	        :type head: ListNode
+	        :rtype: bool
+	        """
+	        if head == None or head.next == None:
+	            return True
+	       # O(N) time complexity O(1) space complexity
+	        fast, slow = head, head
+	        while fast != None and fast.next != None:
+	            fast = fast.next.next
+	            slow = slow.next
+	
+	        # even count
+	        if fast == None:
+	            pass
+	        # odd count
+	        else:
+	            slow = slow.next
+	
+	        lastHalf = self.reverseList(slow)
+	        flag = True
+	        while lastHalf != None:
+	            if lastHalf.val != head.val:
+	                flag = False
+	            lastHalf = lastHalf.next
+	            head = head.next
+	        return flag
+	
+	    def reverseList(self, head):
+	        if head.next == None:
+	            return head
+	        res = self.reverseList(head.next)
+	        head.next.next = head
+	        head.next = None
+	        return res
 
 ---
 ### 简单思路
+- Solution1
 
-1、最暴力的方式，通过穷举方式求出所有的情况，时间复杂度为O(n^3)
+	最先想到的，将链表元素放入数组进行判断。但是空间复杂度为O(N),无法达到要求
 
-2、更好的解决方式，通过对输入数组S进行升序排序，得到时间复杂度为O(n^2）的solution。对数据进行遍历，以数组第一个元素为例：将当前元素作S[0]为3-tuple的第一个元素，第二个元素取数组剩余元素的最小值S[1]，第三个元素取最大值S[n-1],此时3-tuple的和sum=S[0]+S[1]+S[n-1]，如果sum的值大于0，则左移第三个元素，选取S[n-2]
+- Solution2
+	
+	声明两个游标，slow、fast。fast的移动速度为slow的两倍，当fast移动到链表尾部的时候，slow正好移动到链表中部。此时可以利用slow，将链表的一半进行反转，然后对比，判断是否为回文。此时满足题目要求，时间复杂度为O(N)，并且空间复杂度为O(1)。
+
+### 疑惑
+
+想到了对链表进行反转，但是如果链表进行反转的话，就会修改输入，在这种情况下，空间复杂度是否为O(N)。论坛中，大家满足要求的实现，均建立在链表反转的情况下。空间复杂度的定义：程序运行占用的空间，除去输入数据的空间，额外占用的空间，即为程序的空间复杂度，但是这个定义的先决条件是，输入为read-only，不能对修改输入。所以根据教材的定义，基于链表反转的实现方法，空间复杂度为O(N)......
  
