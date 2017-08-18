@@ -1,55 +1,57 @@
-### 甲板上战舰的数量
+### 二叉搜索树的最低祖先结点
 ---
-Follow up:
-Could you do it in one-pass, using only O(1) extra memory and without modifying the value of the board?
+For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
 
-给出一个二维甲板，计算甲板上有多少战舰。在甲板中，“X”代表战舰，“."代表空槽位。输入数据遵循以下规则：
+给出一个二叉搜索树(BST)，找出指定两个结点的最低的公共祖先结点(LCA)。
 
-- 程序收到的输入为有效的输入，即只包含战舰与空槽位。
-- 战舰只能水平或者垂直停放，换句话说，在2D甲板上，代表战舰的排列只能是 1XN（水平存放，一行N列），或者NX1(垂直存放，N行一列）。N可以是任何大小。 
-- 两个停放的战舰之间至少会相隔一个垂直、水平的单元格。不会出现两个紧邻的战舰。
+根据维基百科关于LCA的定义：在树中的两个结点v和w，的最低公共祖先结点应该是同时能将v和w作为后代结点的结点。（允许一个结点作为自己的后代结点）
 
-**Note: 最好只遍历一遍，利用O(1)的额外内存，并且不能修改输入**
 ### Example:
-有效输入:
-["X..X","...X","...X"]
+	        _______6______
+	       /              \
+	    ___2__          ___8__
+	   /      \        /      \
+	   0      _4       7       9
+	         /  \
+	         3   5
 
-在上面输入的甲板上，有两辆战舰
 
-无效输入:
-["...X","XXXX","...X"]
-
-上面输入为无效输入，这种不遵循题目阐述规则的的甲板，不会作为输入。战舰之间没有相隔一行、一列单元格，即出现了紧邻的战舰。
+结点2和结点6的最低公共祖先点是6。而结点2和结点4的最低公共祖先结点是4，因为一个结点允许作为自己的子孙结点。
 
 ### python 实现如下：
+	# Definition for a binary tree node.
+	class TreeNode(object):
+	     def __init__(self, x):
+	         self.val = x
+	         self.left = None
+	         self.right = None
+
 	class Solution(object):
-	    def countBattleships(self, board):
+	    def service(self, root, p, q):
+	        if root == None:
+	            return None
+	        if p.val <= root.val and q.val >= root.val:
+	            return root
+	        elif q.val <= root.val:
+	            return self.lowestCommonAncestor(root.left, p, q)
+	        elif p.val >= root.val:
+	            return self.lowestCommonAncestor(root.right, p, q)
+	
+	    def lowestCommonAncestor(self, root, p, q):
 	        """
-	        :type board: List[List[str]]
-	        :rtype: int
+	        :type root: TreeNode
+	        :type p: TreeNode
+	        :type q: TreeNode
+	        :rtype: TreeNode
 	        """
-	        count = 0
-	        for i in xrange(len(board)):
-	            for j in xrange(len(board[i])):
-	                if board[i][j] == '.':
-	                    continue
-	                if i > 0 and board[i - 1][j] == 'X':
-	                    continue
-	                if j > 0 and board[i][j - 1] == 'X':
-	                    continue
-	                count = count + 1
-	        return count
-	
-	
-	if __name__ == '__main__':
-	    board = ["X..X","...X","...X"]
-	
-	    solution = Solution()
-	    print solution.countBattleships(board)
+	        if p.val <= q.val:
+	            res =  self.service(root, p, q)
+	        else:
+	            res = self.service(root, q, p)
+	        return res
 
 ---
 ### 简单思路
 
-只对战舰的“头部”进行计数：在遍历甲板的过程中，如果X的左面，或者上面为“X"，则代表此单元不是战舰的头部，直接跳过。如果为"."，这代表此单元格为战舰的头部，进行计数
- 
+对于两个结点v和w，他们的最低公共祖先结点满足一个条件，即v.val<=root.val<=w.val或者w.val<=root.val<=v.val。 利用递归，对左子树、又子书进行相同的递归操作。 
 
